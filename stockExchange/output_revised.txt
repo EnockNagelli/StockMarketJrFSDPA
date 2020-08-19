@@ -1,0 +1,3 @@
+
+testConnectivity=true
+hibernateProperties=true
