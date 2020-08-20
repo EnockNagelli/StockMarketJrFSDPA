@@ -23,62 +23,47 @@ import com.iiht.stockExchange.entity.CompanyDetails;
 import com.iiht.stockExchange.entity.StockPriceDetails;
 
 @RunWith(SpringRunner.class)
-public class TestEntityValidation
-{
+public class TestEntityValidation {
     private Validator validator;
-	
+    
     //----------------------------------------------------------------------------------------------
     @Before
-    public void setUp()
-    {
+    public void setUp() {
     	ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }
 
     //----------------------------------------------------------------------------------------------
     @Test
-    public void testPostCompanyDetailsSuccess() throws IOException
-    {
+    public void testPostCompanyDetailsSuccess() throws IOException {
     	CompanyDetails compDet = MasterData.getCompanyDetails();
-    	
         Set<ConstraintViolation<CompanyDetails>> violations = validator.validate(compDet);
-        
 	    yakshaAssert(currentTest(), violations.isEmpty() ? true : false, boundaryTestFile);	    
     }
     
     //----------------------------------------------------------------------------------------------
     @Test
-    public void testPostCompanyDetailsFailed() throws IOException
-    {
+    public void testPostCompanyDetailsFailed() throws IOException {
     	CompanyDetails compDet = MasterData.getCompanyDetails();
-    	
     	compDet.setCompanyProfile(null);
-    	
         Set<ConstraintViolation<CompanyDetails>> violations = validator.validate(compDet);
-        
 	    yakshaAssert(currentTest(), violations.isEmpty() ? true : false, boundaryTestFile);
     }
 
     //----------------------------------------------------------------------------------------------
     @Test
-    public void testPostStockPriceDetailsSuccess() throws IOException
-    {
+    public void testPostStockPriceDetailsSuccess() throws IOException {
     	StockPriceDetails spDet = MasterData.getStockPriceDetails();
-    	
         Set<ConstraintViolation<StockPriceDetails>> violations = validator.validate(spDet);
-
 	    yakshaAssert(currentTest(), violations.isEmpty() ? true : false, boundaryTestFile);
     }
     
+    //----------------------------------------------------------------------------------------------
     @Test
-    public void testPostStockPriceDetailsFailed() throws IOException
-    {
+    public void testPostStockPriceDetailsFailed() throws IOException {
     	StockPriceDetails spDet = MasterData.getStockPriceDetails();
-    	
     	spDet.setCurrentStockPrice(null);
-
     	Set<ConstraintViolation<StockPriceDetails>> violations = validator.validate(spDet);
-
 	    yakshaAssert(currentTest(), violations.isEmpty() ? true : false, boundaryTestFile);
     }
 }
