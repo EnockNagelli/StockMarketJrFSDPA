@@ -47,7 +47,7 @@ public class TestEntityValidation {
     	CompanyDetails compDet = MasterData.getCompanyDetails();
     	compDet.setCompanyProfile(null);
         Set<ConstraintViolation<CompanyDetails>> violations = validator.validate(compDet);
-	    yakshaAssert(currentTest(), violations.isEmpty() ? true : false, boundaryTestFile);
+	    yakshaAssert(currentTest(), !violations.isEmpty() ? true : false, boundaryTestFile);
     }
 
     //----------------------------------------------------------------------------------------------
@@ -64,6 +64,6 @@ public class TestEntityValidation {
     	StockPriceDetails spDet = MasterData.getStockPriceDetails();
     	spDet.setCurrentStockPrice(null);
     	Set<ConstraintViolation<StockPriceDetails>> violations = validator.validate(spDet);
-	    yakshaAssert(currentTest(), violations.isEmpty() ? true : false, boundaryTestFile);
+	    yakshaAssert(currentTest(), !violations.isEmpty() ? true : false, boundaryTestFile);
     }
 }

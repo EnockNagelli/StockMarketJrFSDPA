@@ -12,44 +12,26 @@ import com.iiht.stockExchange.entity.StockPriceDetails;
 
 @Service
 @Transactional
-public class StockMarketServiceImpl implements StockMarketService{
+public class StockMarketServiceImpl implements StockMarketService {
 
+	@SuppressWarnings("unused")
 	@Autowired
 	private StockMarketDao stockMarketDao;
 	
 	@Override
 	public Boolean saveStockDetails(StockPriceDetails stockPriceDetails) {
-		stockMarketDao.saveStock(stockPriceDetails);
 		return true;
 	};
-
 	@Override
 	public List<StockPriceDetails> getAllStock() {
-		return stockMarketDao.getAllStock();
+		return null;
 	};
-
 	@Override
-	public List<StockPriceDetails> getStockByCompanyCode(Long companyCode){
-		return stockMarketDao.getStockByCompanyCode(companyCode);
+	public List<StockPriceDetails> getStockByCompanyCode(Long companyCode) {
+		return null;
 	};
-	
 	@Override
-	public List<StockPriceDetails> getStockRange(LocalDate from, LocalDate to){
-		return stockMarketDao.getStockRange(from, to);
-	};
-	//---------------------------------------------------------------------------------------------
-	@Override
-	public Double getMaxStockPrice(LocalDate from, LocalDate to) {
-		return stockMarketDao.getMaxStockPrice(from, to);
-	};
-
-	@Override
-	public Double getAvgStockPrice(LocalDate from, LocalDate to) {
-		return stockMarketDao.getAvgStockPrice(from, to);
-	};
-	
-	@Override
-	public Double getMinStockPrice(LocalDate from, LocalDate to) {
-		return stockMarketDao.getMinStockPrice(from, to);
+	public List<StockPriceDetails> getStockRange(Long companyCode, LocalDate from, LocalDate to) {
+		return null;
 	};
 }

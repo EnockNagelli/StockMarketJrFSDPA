@@ -2,6 +2,7 @@ package com.iiht.stockExchange.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,16 +35,6 @@ public class StockPriceDetails implements Serializable {
 	private Long companyCode;									// To which Company this Stock Price Info belongs to
 
 	@NotNull
-	@Size(min = 1, max = 100)
-	@Column(name = "stockExchange")
-	private String stockExchange;
-
-	@NotNull
-	@Size(min = 1, max = 100)
-	@Column(name = "companyName")
-	private String companyName;
-
-	@NotNull
 	@Column(name = "currentStockPrice", precision=10, scale=2)
 	private Double currentStockPrice;							// Stock Price
 	
@@ -53,6 +43,6 @@ public class StockPriceDetails implements Serializable {
 	private LocalDate stockPriceDate;							// Date of the Stock Price
 	
 	@NotNull
-	@Column(name = "stockPriceTime")
-	private String stockPriceTime;								// Stock Price at this Specific
+	@Column(name = "stockPriceTime", columnDefinition = "TIME")
+	private LocalTime stockPriceTime;								// Stock Price at this Specific
 }

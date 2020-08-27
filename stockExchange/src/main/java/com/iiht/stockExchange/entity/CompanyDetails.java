@@ -52,7 +52,6 @@ public class CompanyDetails implements Serializable {
 	@Column(name = "turnover", precision=10, scale=2)
 	private Double turnover;
 
-	//@ElementCollection(targetClass=String.class)			
 	@NotNull
 	@Size(min = 1, max = 500)
 	@Column(name = "boardOfDirectors")

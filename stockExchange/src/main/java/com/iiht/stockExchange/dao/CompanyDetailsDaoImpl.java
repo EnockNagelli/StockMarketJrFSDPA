@@ -13,41 +13,32 @@ import com.iiht.stockExchange.entity.CompanyDetails;
 @Transactional
 public class CompanyDetailsDaoImpl implements CompanyDetailsDao {
 	
+	@SuppressWarnings("unused")
 	@Autowired
     private SessionFactory sessionFactory;
 
 	@Override
 	public Boolean saveCompany(CompanyDetails companyDetails) {
-		sessionFactory.getCurrentSession().save(companyDetails);
 		return true;
 	};
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<CompanyDetails> getAllCompanies(){
-		String hql = "FROM CompanyDetails";		  		
-		return (List<CompanyDetails>) sessionFactory.getCurrentSession().createQuery(hql).list();		
+		return null;		
 	};
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<CompanyDetails> getAllCompaniesByExchange(String stockExchange){
-		String hql = "from CompanyDetails c where c.stockExchange = ?";
-		return (List<CompanyDetails>) sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, stockExchange).list();
+		return null;		
 	};
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<CompanyDetails> getCompanyCode(String companyName) {
-		String hql = "from CompanyDetails c where c.companyName = ?";
-		return (List<CompanyDetails>) sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, companyName).list();
+		return null;		
 	};
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<CompanyDetails> getCompanyInfoByCompanyCode(Long companyCode) {
-		String hql = "from CompanyDetails c where c.companyCode = ?";
-		return (List<CompanyDetails>) sessionFactory.getCurrentSession().createQuery(hql).setParameter(0, companyCode).list();
-		
+		return null;		
 	};
 }

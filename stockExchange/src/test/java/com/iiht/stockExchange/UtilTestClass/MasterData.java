@@ -3,6 +3,7 @@ package com.iiht.stockExchange.UtilTestClass;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
@@ -35,13 +36,11 @@ public class MasterData
 		
 		spDetails.setStockIndex(spDetails.getStockIndex());
 		spDetails.setCompanyCode((long)2001);
-		spDetails.setStockExchange("BSE");
-		spDetails.setCompanyName("IIHT Pvt Ltd, Bangalore");
 		spDetails.setCurrentStockPrice(55.76);
 
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		spDetails.setStockPriceDate(LocalDate.parse("08/07/2020", dateFormat));
-		spDetails.setStockPriceTime("10:30:00");
+		spDetails.setStockPriceTime(LocalTime.parse("10:30:00"));
 
 		return spDetails;
 	}

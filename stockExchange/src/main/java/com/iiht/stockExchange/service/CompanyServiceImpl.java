@@ -13,27 +13,27 @@ import com.iiht.stockExchange.entity.CompanyDetails;
 @Transactional
 public class CompanyServiceImpl implements CompanyService {
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private CompanyDetailsDao companyDetailsDao;
 	
 	public Boolean saveCompany(CompanyDetails companyDetails) {
-		companyDetailsDao.saveCompany(companyDetails);
 		return true;
 	};
 
 	public List<CompanyDetails> getAllCompanies() {
-		return companyDetailsDao.getAllCompanies();
+		return null;
 	};
 	
 	public List<CompanyDetails> getAllCompaniesByExchange(String stockExchange) {
-		return companyDetailsDao.getAllCompaniesByExchange(stockExchange);
+		return null;
 	};
 	
 	public List<CompanyDetails> getCompanyCode(String companyName){
-		return companyDetailsDao.getCompanyCode(companyName);
+		return null;
 	};
 
 	public List<CompanyDetails> getCompanyInfoByCompanyCode(Long companyCode){
-		return companyDetailsDao.getCompanyInfoByCompanyCode(companyCode);
+		return null;
 	};	
 }

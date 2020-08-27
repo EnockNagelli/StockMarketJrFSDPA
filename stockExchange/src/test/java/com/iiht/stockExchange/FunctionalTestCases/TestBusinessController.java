@@ -5,6 +5,7 @@ import static com.iiht.stockExchange.UtilTestClass.TestUtils.currentTest;
 import static com.iiht.stockExchange.UtilTestClass.TestUtils.yakshaAssert;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -45,8 +46,7 @@ public class TestBusinessController
 	 * Description	: This test is to perform setup for Mockito initiations
 	 */
 	@Before
-	public void setup() throws Exception 
-	{
+	public void setup() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		this.mockMvc = MockMvcBuilders.standaloneSetup(businessController).build();
 	}
@@ -56,10 +56,8 @@ public class TestBusinessController
 	 * Description	: This test is to perform Loading the landing page URL
 	 */
 	@Test
-	public void testLoadingPageUrl() throws Exception 
-	{
+	public void testLoadingPageUrl() throws Exception {
 		MvcResult result = this.mockMvc.perform(get("/")).andExpect(view().name("home")).andReturn();
-
 	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
 	}
 
@@ -68,10 +66,8 @@ public class TestBusinessController
 	 * Description	: This test is to perform add new Company Details
 	 */
 	@Test 
-	public void testAddCompanyDetails() throws Exception 
-	{ 
-		MvcResult result = this.mockMvc.perform(get("/addNewCompany")).andExpect(status().isOk()).andExpect(view().name("addCompanyInfo")).andReturn();
-
+	public void testAddCompanyDetails() throws Exception { 
+		MvcResult result = this.mockMvc.perform(post("/addNewCompany")).andExpect(status().isOk()).andExpect(view().name("addCompanyInfo")).andReturn();
 	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
 	}
 
@@ -80,132 +76,178 @@ public class TestBusinessController
 	 * Description	: This test is to perform view all the Company Details from database 
 	 */
 	@Test 
-	public void testViewAllCompanyDetails() throws Exception 
-	{ 
+	public void testViewAllCompanyDetails() throws Exception { 
 		List<CompanyDetails> cdList = new ArrayList<CompanyDetails>(); 
 		cdList.add(new CompanyDetails());
-		cdList.add(new CompanyDetails());
-		
+		cdList.add(new CompanyDetails());	
 		when(companyService.getAllCompanies()).thenReturn((List<CompanyDetails>) cdList);
-		
-		MvcResult result = this.mockMvc.perform(get("/viewAllCompanies")).andExpect(status().isOk()).andExpect(view().name("viewListedCompanies")).andReturn();
-
+		MvcResult result = this.mockMvc.perform(get("/listAllCompanies")).andExpect(status().isOk()).andExpect(view().name("listAllCompanies")).andReturn();
 	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------------
 	/*
-	 * Description	: This test is to perform check the null operation against view all posts operation 
+	 * Description	: This test is to perform check the null operation against view all Company Details 
 	 */
 	@Test 
-	public void testViewAllCompanyDetailsCase() throws Exception 
-	{
+	public void testViewAllCompanyDetailsCase() throws Exception {
 		when(companyService.getAllCompanies()).thenReturn(null);
-
-		MvcResult result = this.mockMvc.perform(get("/viewAllCompanies")).andExpect(status().isOk()).andExpect(view().name("home")).andReturn(); 
-
+		MvcResult result = this.mockMvc.perform(get("/listAllCompanies")).andExpect(status().isOk()).andExpect(view().name("home")).andReturn(); 
 	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
 	}
-	
+		
 	// -------------------------------------------------------------------------------------------------------------------
 	/*
 	 * Description	: This test is to perform add new Stock Price Details
 	 */
 	@Test 
-	public void testSelectStockExchange() throws Exception 
-	{ 
-		MvcResult result = this.mockMvc.perform(get("/selectStockExchange?stockExchange=NSE")).andExpect(status().isOk()).andExpect(view().name("addStockPrices")).andReturn();
-
+	public void testCommitStockPrices() throws Exception { 
+		MvcResult result = this.mockMvc.perform(post("/saveStockPrices")).andExpect(status().isOk()).andExpect(view().name("home")).andReturn();
 	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
 	}
 
-	// -------------------------------------------------------------------------------------------------------------------
-	/*
-	 * Description	: This test is to perform add new Stock Price Details
-	 */
-	@Test 
-	public void testSelectCompanyName() throws Exception 
-	{ 
-		MvcResult result = this.mockMvc.perform(get("/selectCompanyName?companyName=Samsung+India+Pvt+Ltd")).andExpect(status().isOk()).andExpect(view().name("addStockPrices")).andReturn();
-
-	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
-	}
-	
-	// -------------------------------------------------------------------------------------------------------------------
-	/*
-	 * Description	: This test is to perform add new Stock Price Details
-	 */
-	@Test 
-	public void testCommitStockPrices() throws Exception 
-	{ 
-		MvcResult result = this.mockMvc.perform(get("/commitStockPrices?stockId="+102+"&stockPrice="+25.76+"&stockDate=08%2F10%2F2020&stockTime=10%3A30AM")).andExpect(status().isOk()).andExpect(view().name("home")).andReturn();
-
-	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
-	}
-
-	// -------------------------------------------------------------------------------------------------------------------
-	/*
-	 * Description	: This test is to perform add new Stock Price Details
-	 */
-	@Test 
-	public void testSelectStockExchange2() throws Exception 
-	{ 
-		MvcResult result = this.mockMvc.perform(get("/selectStockExchange2?stockExchange=NSE")).andExpect(status().isOk()).andExpect(view().name("displayStockDetails")).andReturn();
-
-	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
-	}
-	
-	// -------------------------------------------------------------------------------------------------------------------
-	/*
-	 * Description	: This test is to perform add new Stock Price Details
-	 */
-	@Test 
-	public void testSelectCompanyName2() throws Exception 
-	{ 
-		MvcResult result = this.mockMvc.perform(get("/selectCompanyName2?companyName=Google")).andExpect(status().isOk()).andExpect(view().name("displayStockDetails")).andReturn();
-
-	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
-	}
-	
 	// -------------------------------------------------------------------------------------------------------------------
 	/*
 	 * Description	: This test is to perform view all the Company Details from database 
 	 */
 	@Test 
-	public void testViewAllStockPriceDetails() throws Exception 
-	{ 
+	public void testViewAllStockPriceDetails() throws Exception { 
 		List<StockPriceDetails> spList = new ArrayList<StockPriceDetails>(); 
 		spList.add(new StockPriceDetails());
 		spList.add(new StockPriceDetails());
-		
 		when(stockMarketService.getAllStock()).thenReturn((List<StockPriceDetails>) spList);
-		
-		MvcResult result = this.mockMvc.perform(get("/displayStockDetails")).andExpect(status().isOk()).andExpect(view().name("displayStockDetails")).andReturn();
-
+		MvcResult result = this.mockMvc.perform(get("/showStockDetails")).andExpect(status().isOk()).andExpect(view().name("displayStockDetails")).andReturn();
 	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
-	}
-	
+	}	
+
 	// -------------------------------------------------------------------------------------------------------------------
 	/*
-	 * Description	: This test is to perform add new Stock Price Index Details
+	 * Description	: This test is to perform check the null operation against view all Stock Details 
 	 */
 	@Test 
-	public void testSelectStockExchange3() throws Exception 
-	{ 
-		MvcResult result = this.mockMvc.perform(get("/selectStockExchange3?stockExchange=NSE")).andExpect(status().isOk()).andExpect(view().name("stockPriceIndex")).andReturn();
-
+	public void testViewAllStockPriceDetailsCase() throws Exception {
+		when(stockMarketService.getAllStock()).thenReturn(null);
+		MvcResult result = this.mockMvc.perform(get("/showStockDetails")).andExpect(status().isOk()).andExpect(view().name("home")).andReturn(); 
 	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
 	}
 
 	// -------------------------------------------------------------------------------------------------------------------
 	/*
-	 * Description	: This test is to perform add new Stock Price Details
+	 * Description	: This test is to perform view all the Stock Price Index from database 
 	 */
 	@Test 
-	public void testSelectCompanyName3() throws Exception 
-	{ 
-		MvcResult result = this.mockMvc.perform(get("/selectCompanyName3?companyName=Google")).andExpect(status().isOk()).andExpect(view().name("stockPriceIndex")).andReturn();
+	public void testViewAllStockPriceStatistics() throws Exception { 
+		List<StockPriceDetails> spList = new ArrayList<StockPriceDetails>(); 
+		spList.add(new StockPriceDetails());
+		spList.add(new StockPriceDetails());
+		when(stockMarketService.getAllStock()).thenReturn((List<StockPriceDetails>) spList);
+		MvcResult result = this.mockMvc.perform(get("/showStockStatistics")).andExpect(status().isOk()).andExpect(view().name("showStockStatistics")).andReturn();
+	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
+	}	
 
+	// -------------------------------------------------------------------------------------------------------------------
+	/*
+	 * Description	: This test is to perform view all the Stock Price Index from database 
+	 */
+	@Test 
+	public void testViewAllStockPriceStatisticsCase() throws Exception {
+		when(stockMarketService.getAllStock()).thenReturn(null);
+		MvcResult result = this.mockMvc.perform(get("/showStockStatistics")).andExpect(status().isOk()).andExpect(view().name("home")).andReturn(); 
 	    yakshaAssert(currentTest(), result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false, businessTestFile);
 	}
 }
+
+
+
+
+
+// -------------------------------------------------------------------------------------------------------------------
+/*
+ * Description	: This test is to perform add new Stock Price Details
+ */
+/*
+ * @Test public void testSelectStockExchange() throws Exception { MvcResult
+ * result =
+ * this.mockMvc.perform(get("/selectStockExchange?stockExchange=NSE")).andExpect
+ * (status().isOk()).andExpect(view().name("addStockPrices")).andReturn();
+ * yakshaAssert(currentTest(), result.getResponse().getStatus() ==
+ * HttpStatus.OK.value() ? true : false, businessTestFile); }
+ */
+
+// -------------------------------------------------------------------------------------------------------------------
+/*
+ * Description	: This test is to perform add new Stock Price Details
+ */
+/*
+ * @Test public void testSelectCompanyName() throws Exception { MvcResult result
+ * = this.mockMvc.perform(get(
+ * "/selectCompanyName?companyName=Samsung+India+Pvt+Ltd")).andExpect(status().
+ * isOk()).andExpect(view().name("addStockPrices")).andReturn();
+ * yakshaAssert(currentTest(), result.getResponse().getStatus() ==
+ * HttpStatus.OK.value() ? true : false, businessTestFile); }
+ */
+
+// -------------------------------------------------------------------------------------------------------------------
+/*
+ * Description	: This test is to perform add new Stock Price Details
+ */
+/*
+ * @Test public void testCommitStockPrices() throws Exception { MvcResult result
+ * =
+ * this.mockMvc.perform(post("/commitStockPrices?stockId="+102+"&stockPrice="+25
+ * .76+"&stockDate=08%2F10%2F2020&stockTime=10%3A30AM")).andExpect(status().isOk
+ * ()).andExpect(view().name("home")).andReturn(); yakshaAssert(currentTest(),
+ * result.getResponse().getStatus() == HttpStatus.OK.value() ? true : false,
+ * businessTestFile); }
+ */
+// -------------------------------------------------------------------------------------------------------------------
+/*
+ * Description	: This test is to perform add new Stock Price Details
+ */
+/*
+ * @Test public void testSelectStockExchange2() throws Exception { MvcResult
+ * result =
+ * this.mockMvc.perform(get("/selectStockExchange2?stockExchange=NSE")).
+ * andExpect(status().isOk()).andExpect(view().name("displayStockDetails")).
+ * andReturn(); yakshaAssert(currentTest(), result.getResponse().getStatus() ==
+ * HttpStatus.OK.value() ? true : false, businessTestFile); }
+ */
+
+// -------------------------------------------------------------------------------------------------------------------
+/*
+ * Description	: This test is to perform add new Stock Price Details
+ */
+/*
+ * @Test public void testSelectCompanyName2() throws Exception { MvcResult
+ * result =
+ * this.mockMvc.perform(get("/selectCompanyName2?companyName=Google")).andExpect
+ * (status().isOk()).andExpect(view().name("displayStockDetails")).andReturn();
+ * yakshaAssert(currentTest(), result.getResponse().getStatus() ==
+ * HttpStatus.OK.value() ? true : false, businessTestFile); }
+ */
+
+// -------------------------------------------------------------------------------------------------------------------
+/*
+ * Description	: This test is to perform add new Stock Price Index Details
+ */
+/*
+ * @Test public void testSelectStockExchange3() throws Exception { MvcResult
+ * result =
+ * this.mockMvc.perform(get("/selectStockExchange3?stockExchange=NSE")).
+ * andExpect(status().isOk()).andExpect(view().name("stockPriceIndex")).
+ * andReturn(); yakshaAssert(currentTest(), result.getResponse().getStatus() ==
+ * HttpStatus.OK.value() ? true : false, businessTestFile); }
+ */
+
+// -------------------------------------------------------------------------------------------------------------------
+/*
+ * Description	: This test is to perform add new Stock Price Details
+ */
+/*
+ * @Test public void testSelectCompanyName3() throws Exception { MvcResult
+ * result =
+ * this.mockMvc.perform(get("/selectCompanyName3?companyName=Google")).andExpect
+ * (status().isOk()).andExpect(view().name("stockPriceIndex")).andReturn();
+ * yakshaAssert(currentTest(), result.getResponse().getStatus() ==
+ * HttpStatus.OK.value() ? true : false, businessTestFile); }
+ */

@@ -17,7 +17,6 @@ import org.mockito.MockitoAnnotations;
 import com.iiht.stockExchange.UtilTestClass.MasterData;
 import com.iiht.stockExchange.dao.CompanyDetailsDao;
 import com.iiht.stockExchange.entity.CompanyDetails;
-import com.iiht.stockExchange.service.CompanyService;
 import com.iiht.stockExchange.service.CompanyServiceImpl;
 
 public class TestCompanyServiceImpl {
@@ -25,74 +24,55 @@ public class TestCompanyServiceImpl {
 	@Mock
 	private CompanyDetailsDao companyDetailsDao;
 
-	@Mock
-	private CompanyService companyService;
-	
 	@InjectMocks
 	private CompanyServiceImpl companyServiceImpl;
 	
 	// -------------------------------------------------------------------------------------------------------------------
 	@Before
-	public void setup() 
-	{
+	public void setup() {
 		MockitoAnnotations.initMocks(this);
 	}
 
 	//--------------------------------------------------------------------------------------------------------------------------------
 	@Test
-	public void testCommentServiceImplTest() throws Exception 
-	{
+	public void testCommentServiceImplTest() throws Exception {
 		boolean value = companyServiceImpl.saveCompany(MasterData.getCompanyDetails());
-		
 	    yakshaAssert(currentTest(), value ? true : false, businessTestFile);
 	}
 	
 	//--------------------------------------------------------------------------------------------------------------------------------
 	@Test 
-	public void testViewAllCompanyDetails() throws Exception 
-	{
+	public void testViewAllCompanyDetails() throws Exception {
 		List<CompanyDetails> list = new ArrayList<CompanyDetails>();
 		list.add(MasterData.getCompanyDetails());
 		list.add(MasterData.getCompanyDetails());
-		
-		when(companyServiceImpl.getAllCompanies()).thenReturn((List<CompanyDetails>) list);
-		
-		List<CompanyDetails> commentFromdb = companyDetailsDao.getAllCompanies();
-	
-	    yakshaAssert(currentTest(), commentFromdb==list ? true : false, businessTestFile);
-	}
-	
-	//--------------------------------------------------------------------------------------------------------------------------------
-	@Test 
-	public void testViewAllCompanyDetails1() throws Exception
-	{
-		List<CompanyDetails> list = new ArrayList<CompanyDetails>();
-		  
-		when(companyServiceImpl.getAllCompanies()).thenReturn((List<CompanyDetails>) list);
-		List<CompanyDetails> commentFromdb = companyDetailsDao.getAllCompanies();
-
-	    yakshaAssert(currentTest(), commentFromdb==list ? true : false, businessTestFile);
-	}
-	
-	//--------------------------------------------------------------------------------------------------------------------------------
-	@Test 
-	public void testViewAllCommentsImplTest2() throws Exception 
-	{ 
-		when(companyDetailsDao.getAllCompanies()).thenReturn(null);
-		  
+		when(companyDetailsDao.getAllCompanies()).thenReturn((List<CompanyDetails>) list);
 		List<CompanyDetails> commentFromdb = companyServiceImpl.getAllCompanies();
-
-	    yakshaAssert(currentTest(), commentFromdb==null ? true : false, businessTestFile);
+	    yakshaAssert(currentTest(), commentFromdb == list ? true : false, businessTestFile);
+	}
+	
+	//--------------------------------------------------------------------------------------------------------------------------------
+	@Test 
+	public void testViewAllCompanyDetails1() throws Exception {
+		List<CompanyDetails> list = new ArrayList<CompanyDetails>();
+		when(companyDetailsDao.getAllCompanies()).thenReturn((List<CompanyDetails>) list);
+		List<CompanyDetails> commentFromdb = companyServiceImpl.getAllCompanies();
+	    yakshaAssert(currentTest(), commentFromdb == list ? true : false, businessTestFile);
+	}
+	
+	//--------------------------------------------------------------------------------------------------------------------------------
+	@Test 
+	public void testViewAllCommentsImplTest2() throws Exception { 
+		when(companyDetailsDao.getAllCompanies()).thenReturn(null);
+		List<CompanyDetails> commentFromdb = companyServiceImpl.getAllCompanies();
+	    yakshaAssert(currentTest(), commentFromdb == null ? true : false, businessTestFile);
 	}
 
 	//--------------------------------------------------------------------------------------------------------------------------------
 	@Test 
-	public void testSaveCommentsImplTest() throws Exception 
-	{
-		when(companyService.saveCompany(MasterData.getCompanyDetails())).thenReturn(true); 
-		
-		List<CompanyDetails> commentFromdb = companyDetailsDao.getAllCompanies();
-		
+	public void testSaveCommentsImplTest() throws Exception {
+		when(companyDetailsDao.saveCompany(MasterData.getCompanyDetails())).thenReturn(true); 
+		List<CompanyDetails> commentFromdb = companyServiceImpl.getAllCompanies();
 	    yakshaAssert(currentTest(), commentFromdb != null ? true : false, businessTestFile);
 	}	
 }
