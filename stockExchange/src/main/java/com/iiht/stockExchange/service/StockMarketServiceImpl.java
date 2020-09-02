@@ -34,4 +34,14 @@ public class StockMarketServiceImpl implements StockMarketService {
 	public List<StockPriceDetails> getStockRange(Long companyCode, LocalDate from, LocalDate to) {
 		return null;
 	};
+	
+	public Double getMaxStockPrice(Long companyCode, LocalDate from, LocalDate to) {
+		return null;
+	};
+	public Double getAvgStockPrice(Long companyCode, LocalDate from, LocalDate to) {
+		return null;
+	};
+	public Double getMinStockPrice(Long companyCode, LocalDate from, LocalDate to) {
+		return null;
+	};
 }

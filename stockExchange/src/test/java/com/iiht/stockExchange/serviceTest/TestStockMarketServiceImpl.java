@@ -5,6 +5,7 @@ import static com.iiht.stockExchange.UtilTestClass.TestUtils.currentTest;
 import static com.iiht.stockExchange.UtilTestClass.TestUtils.yakshaAssert;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,18 +56,20 @@ public class TestStockMarketServiceImpl {
 	@Test 
 	public void testViewAllStockDetails1() throws Exception {
 		List<StockPriceDetails> list = new ArrayList<StockPriceDetails>();
+		
 		when(stockMarketDao.getAllStock()).thenReturn((List<StockPriceDetails>) list);
 		List<StockPriceDetails> commentFromdb = stockMarketServiceImpl.getAllStock();
 	    yakshaAssert(currentTest(), commentFromdb==list ? true : false, businessTestFile);
 	}
 	
 	//--------------------------------------------------------------------------------------------------------------------------------
-	@Test 
-	public void testViewAllStockMarketImplTest2() throws Exception { 
-		when(stockMarketDao.getAllStock()).thenReturn(null);
-		List<StockPriceDetails> commentFromdb = stockMarketServiceImpl.getAllStock();
-	    yakshaAssert(currentTest(), commentFromdb==null ? true : false, businessTestFile);
-	}
+	/*
+	 * @Test public void testViewAllStockMarketImplTest2() throws Exception {
+	 * when(stockMarketDao.getAllStock()).thenReturn(null); List<StockPriceDetails>
+	 * commentFromdb = stockMarketServiceImpl.getAllStock();
+	 * yakshaAssert(currentTest(), commentFromdb==null ? true : false,
+	 * businessTestFile); }
+	 */
 
 	//--------------------------------------------------------------------------------------------------------------------------------
 	@Test 
@@ -74,5 +77,12 @@ public class TestStockMarketServiceImpl {
 		when(stockMarketDao.saveStockDetails(MasterData.getStockPriceDetails())).thenReturn(true); 
 		List<StockPriceDetails> commentFromdb = stockMarketServiceImpl.getAllStock();
 	    yakshaAssert(currentTest(), commentFromdb != null ? true : false, businessTestFile);
-	}	
+	}
+	
+	@Test 
+	public void testMaxStockPrice() throws Exception {
+		when(stockMarketDao.getMaxStockPrice((long)2001, LocalDate.parse("2020-08-01"), LocalDate.parse("2020-08-30")).thenReturn(new Double(25.76));
+		Double commentFromdb = stockMarketServiceImpl.getMaxStockPrice((long)2001, LocalDate.parse("2020-08-01"), LocalDate.parse("2020-08-30"));
+		yakshaAssert(currentTest(), commentFromdb != null ? true : false, businessTestFile);
+	}
 }
